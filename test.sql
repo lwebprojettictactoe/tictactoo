@@ -1,4 +1,3 @@
-select $ $s$dqz$d $qzd
-qd
+select *;
 qdù
 qz;
