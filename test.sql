@@ -1,3 +1,0 @@
-select *;
-qdù
-qz;
