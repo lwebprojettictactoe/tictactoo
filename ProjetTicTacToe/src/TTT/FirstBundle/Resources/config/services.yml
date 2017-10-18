@@ -1,0 +1,4 @@
+services:
+#    ttt_first.example:
+#        class: TTT\FirstBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
