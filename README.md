@@ -1,1 +1,2 @@
-# tictactoo
+# tictactoe
+Création du jeu tictactoe
