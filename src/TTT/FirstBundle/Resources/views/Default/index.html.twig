@@ -1,41 +1,103 @@
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="{{ asset('bundles/tttfirst/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+<!DOCTYPE html>
+<html>
+<head>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="{{ asset('bundles/tttfirst/materialize/css/materialize.min.css') }}"
+		  media="screen,projection"/>
 
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-    <body>
-        <!-- Dropdown Structure -->
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!">one</a></li>
-      <li><a href="#!">two</a></li>
-      <li class="divider"></li>
-      <li><a href="#!">three</a></li>
-    </ul>
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="sass.html">Sass</a></li>
-          <li><a href="badges.html">Components</a></li>
-          <!-- Dropdown Trigger -->
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
-        </ul>
-  </div>
+<body onload="init()">
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+	<li><a href="#!">one</a></li>
+	<li><a href="#!">two</a></li>
+	<li class="divider"></li>
+	<li><a href="#!">three</a></li>
+</ul>
+<ul id='dropdown-type-game' class='dropdown-content'>
+	<li><a id="tous">Tous</a></li>
+	<li><a id="attente">En attente</a></li>
+	<li><a id="cours">En cours</a></li>
+</ul>
+
+<nav>
+	<div class="nav-wrapper">
+		<a href="#!" class="brand-logo">Logo</a>
+		<ul class="right hide-on-med-and-down">
+			<li><a href="sass.html">Sass</a></li>
+			<li><a href="badges.html">Components</a></li>
+			<!-- Dropdown Trigger -->
+			<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
+			</li>
+		</ul>
+	</div>
 </nav>
-       
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/materialize.min.js') }}"></script>
-    </body>
-  </html>
-  <script>
-      $(".dropdown-button").dropdown();
-      </script>
+
+<div class="container">
+	<div class="row">
+		<div class="col s12 m12 l12">
+			<table class="table highlight">
+				<thead>
+				<tr>
+					<th><a class="waves-effect btn"><i class="material-icons left">loop</i>Actualiser</a>
+					</th>
+					<th id="type-game">
+						<a class='dropdown-button btn' href='#' data-activates='dropdown-type-game'>Type de Partie
+							<i class="material-icons left">arrow_drop_down</i>
+						</a>
+					</th>
+					<th>
+						<div class="input-field">
+							<i class="tiny material-icons prefix">search</i>
+							<input id="icon_prefix" type="text" class="validate">
+							<label for="icon_prefix">Nom de la partie</label>
+						</div>
+					</th>
+				</tr>
+				</thead>
+				<thead>
+				<th>Nom de la partie</th>
+				<th>Jeu</th>
+				<th>Joueur 1</th>
+				<th>Joueur 2</th>
+				</thead>
+				<tbody>
+				<tr>
+					<td>Alvin</td>
+					<td>Eclair</td>
+					<td>$0.87</td>
+					<td>coucou</td>
+				</tr>
+				<tr>
+					<td>Alan</td>
+					<td>Jellybean</td>
+					<td>toi</td>
+					<td>toi</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/materialize.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/jsgrid.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/jsgrid-script.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/db.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/index.js') }}"></script>
+</body>
+</html>
+<script>
+	$("#dropdown-type-game").dropdown();
+</script>
         
