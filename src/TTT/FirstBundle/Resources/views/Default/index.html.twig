@@ -1,41 +1,122 @@
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="{{ asset('bundles/tttfirst/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+<!DOCTYPE html>
+<html>
+<head>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="{{ asset('bundles/tttfirst/materialize/css/materialize.min.css') }}"
+		  media="screen,projection"/>
 
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-    <body>
-        <!-- Dropdown Structure -->
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!">one</a></li>
-      <li><a href="#!">two</a></li>
-      <li class="divider"></li>
-      <li><a href="#!">three</a></li>
-    </ul>
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="sass.html">Sass</a></li>
-          <li><a href="badges.html">Components</a></li>
-          <!-- Dropdown Trigger -->
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
-        </ul>
-  </div>
-</nav>
-       
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/materialize.min.js') }}"></script>
-    </body>
-  </html>
-  <script>
-      $(".dropdown-button").dropdown();
-      </script>
-        
+<body onload="init()">
+<ul id='dropdown-type-game' class='dropdown-content'>
+	<li><a id="tous">Toutes</a></li>
+	<li><a id="attente">En attente</a></li>
+	<li><a id="cours">En cours</a></li>
+</ul>
+
+<div class="container">
+	<div id="index-partie">
+		<div class="row" id="tab-partie">
+			<div class="col s12">
+				<table class="table highlight">
+					<thead>
+					<tr>
+						<th><a class="waves-effect btn red">Actualiser<i class="material-icons left">loop</i></a>
+						</th>
+						<th id="type-game">
+							<a class='dropdown-button btn red' href='#' data-activates='dropdown-type-game'>Type de
+								Partie
+								<i class="material-icons left">arrow_drop_down</i>
+							</a>
+						</th>
+						<th>
+							<div class="input-field">
+								<i class="tiny material-icons prefix">search</i>
+								<input id="icon_prefix" type="text" class="validate">
+								<label for="icon_prefix">Nom de la partie</label>
+							</div>
+						</th>
+					</tr>
+					</thead>
+					<thead>
+					<th>Nom de la partie</th>
+					<th>Jeu</th>
+					<th>Joueur 1</th>
+					<th>Joueur 2</th>
+					</thead>
+					<tbody>
+					<tr>
+						<td>Alvin</td>
+						<td>Eclair</td>
+						<td>$0.87</td>
+						<td>coucou</td>
+					</tr>
+					<tr>
+						<td>Alan</td>
+						<td>Jellybean</td>
+						<td>toi</td>
+						<td>toi</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<a id="add-partie" class="btn-floating btn-large waves-effect waves-light red" onclick="showForm()"><i
+						class="material-icons">add</i></a>
+		</div>
+
+		<div class="row scale-transition scale-out" id="form-ajout">
+			<div class="col s12 m12 l12">
+				<div class="card-panel">
+					<div class="row">
+						<div class="col s12">
+							<input id="form-nom-personne" type="hidden" value="salut">
+							<h4 class="header2 center">Ajouter une partie</h4>
+							<div class="row">
+								<div class="input-field col s4">
+									<i class="mdi-action-account-circle prefix"></i>
+									<input id="form-name" type="text" placeholder="Partie de salut"
+										   class="validate">
+									<label for="form-name">Nom de la partie</label>
+								</div>
+								<div class="input-field col s4">
+									<select id="form-jeu">
+										<option value="tictactoo" selected>Tictactoo</option>
+									</select>
+									<label for="form-jeu">Choisir le jeu</label>
+								</div>
+								<div class="input-field col s4">
+									<div class="input-field col s12">
+										<button class="btn red waves-effect waves-light"
+												id="form-add-game" name="action"><i class="mdi-action-lock-open"></i>
+											C'est parti ! <i class="material-icons left">play_arrow</i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+{#Importation de matérialize#}
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/materialize.min.js') }}"></script>
+
+{#Importation de NodeJS#}
+<script type="text/javascript" src="{{ asset('../node_modules/socket.io-client/dist/socket.io.js') }}"></script>
+
+{#Importation des différents js pour les fonctionnalités#}
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('../serveur.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/socketClient.js') }}"></script>
+</body>
+</html>
