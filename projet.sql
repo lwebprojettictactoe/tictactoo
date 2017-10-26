@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `statistiques` (
 
 DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `Id` int(10) NOT NULL,
+  `Id` int(10) NOT NULL AUTO_INCREMENT,
   `Login` varchar(20) NOT NULL,
   `Mot_de_passe` varchar(20) NOT NULL,
   `Nom` varchar(20) NOT NULL,
