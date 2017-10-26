@@ -34,8 +34,8 @@ DROP TABLE IF EXISTS `parties`;
 CREATE TABLE IF NOT EXISTS `parties` (
   `Id` int(10) NOT NULL AUTO_INCREMENT,
   `Type_Jeu` enum('tictactoo') NOT NULL,
-  `Id_utilisateur1` int(5) NOT NULL,
-  `Id_utilisateur2` int(5) NOT NULL,
+  `Id_utilisateur1` int(10) NOT NULL,
+  `Id_utilisateur2` int(10) DEFAULT NULL,
   `Status Enum` enum('En cours','Finis','En attente') NOT NULL,
   `Score_joueur1` int(1) DEFAULT NULL,
   `Score_joueur2` int(1) DEFAULT NULL,
@@ -85,4 +85,5 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+insert into parties values(default, 'tictactoo', 1, 2, 'En attente', DEFAULT, DEFAULT, DEFAULT);
 insert into parties values(default, 'tictactoo', 1, 2, 'En attente', DEFAULT, DEFAULT, DEFAULT);
