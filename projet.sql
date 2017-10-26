@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS projectGame;
+USE projectGame;
 -- phpMyAdmin SQL Dump
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
@@ -25,18 +27,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `partie`
+-- Structure de la table `parties`
 --
 
-DROP TABLE IF EXISTS `partie`;
-CREATE TABLE IF NOT EXISTS `partie` (
-  `Id` int(5) NOT NULL,
+DROP TABLE IF EXISTS `parties`;
+CREATE TABLE IF NOT EXISTS `parties` (
+  `Id` int(10) NOT NULL AUTO_INCREMENT,
+  `Type_Jeu` enum('tictactoo') NOT NULL,
   `Id_utilisateur1` int(5) NOT NULL,
   `Id_utilisateur2` int(5) NOT NULL,
   `Status Enum` enum('En cours','Finis','En attente') NOT NULL,
   `Score_joueur1` int(1) DEFAULT NULL,
   `Score_joueur2` int(1) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
+  `Date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`),
+  FOREIGN KEY (Id_utilisateur1) REFERENCES utilisateur(Id),
+  FOREIGN KEY (Id_utilisateur2) REFERENCES utilisateur(Id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -47,11 +53,15 @@ CREATE TABLE IF NOT EXISTS `partie` (
 
 DROP TABLE IF EXISTS `statistiques`;
 CREATE TABLE IF NOT EXISTS `statistiques` (
-  `Id_utilisateur` int(5) NOT NULL,
-  `Nombre de victoires` int(10) DEFAULT NULL,
-  `Nombre de défaite` int(10) DEFAULT NULL,
-  `Nombre d’égalité` int(10) DEFAULT NULL
+  `Id_utilisateur` int(10) NOT NULL,
+  `Type_Jeu` enum('tictactoo') NOT NULL,
+  `Nombre_vicoire` int(10) DEFAULT NULL,
+  `Nombre_defaite` int(10) DEFAULT NULL,
+  `Nombre_egalite` int(10) DEFAULT NULL,
+	PRIMARY KEY (Id_utilisateur, Type_Jeu),
+  FOREIGN KEY (Id_utilisateur) REFERENCES utilisateur(Id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -61,16 +71,18 @@ CREATE TABLE IF NOT EXISTS `statistiques` (
 
 DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `Id` int(5) NOT NULL,
+  `Id` int(10) NOT NULL,
   `Login` varchar(20) NOT NULL,
   `Mot_de_passe` varchar(20) NOT NULL,
   `Nom` varchar(20) NOT NULL,
   `Prenom` varchar(20) NOT NULL,
   `Email` varchar(30) NOT NULL,
-  `Photo` int(11) NOT NULL
+  `Photo` int(10) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+insert into parties values(default, 'tictactoo', 1, 2, 'En attente', DEFAULT, DEFAULT, DEFAULT);
