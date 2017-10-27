@@ -71,7 +71,7 @@
 		<div class="row scale-transition scale-out" id="form-ajout">
 			<div class="col s12 m12 l12">
 				<div class="card-panel">
-					<div class="row">
+					<form class="row">
 						<div class="col s12">
 							<input id="form-nom-personne" type="hidden" value="salut">
 							<h4 class="header2 center">Ajouter une partie</h4>
@@ -97,7 +97,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -113,10 +113,12 @@
 
 {#Importation de NodeJS#}
 <script type="text/javascript" src="{{ asset('../node_modules/socket.io-client/dist/socket.io.js') }}"></script>
+<script type="text/javascript" src="{{ asset('../node_modules/sequelize/lib/sequelize.js') }}"></script>
 
 {#Importation des différents js pour les fonctionnalités#}
 <script type="text/javascript" src="{{ asset('bundles/tttfirst/js/index.js') }}"></script>
 <script type="text/javascript" src="{{ asset('../serveur.js') }}"></script>
+<script type="text/javascript" src="{{ asset('../sequelize.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/tttfirst/js/socketClient.js') }}"></script>
 </body>
 </html>
