@@ -28,7 +28,8 @@
 
 # Assets and user uploads
 /web/uploads/
-/vendor/
+
+
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
