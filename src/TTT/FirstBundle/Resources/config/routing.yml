@@ -1,3 +1,11 @@
 ttt_first_homepage:
     path:     /
     defaults: { _controller: TTTFirstBundle:Default:index }
+    
+ttt_first_statistique:
+    path: /stats
+    defaults: { _controller: TTTFirstBundle:Utilisateur:statistique }
+
+ttt_first_profil:
+    path: /profil
+    defaults: { _controller: TTTFirstBundle:Utilisateur:profil }

@@ -1,0 +1,16 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block menu %}
+    <ul>
+        <li><a href="{{ path('ttt_first_homepage')}}" >Accueil</a></li>
+        <li><a href="{{ path('fos_user_security_logout')}}" >Logout</a></li>
+        <li><a href="{{ path('fos_user_profile_show')}}" >Profil</a></li>
+        <li><a href="{{ path('ttt_first_statistique')}}" >Statistique</a></li>
+        <li><a href="{{ path('fos_user_profile_edit')}}" >Modifier Profil </a></li>
+    </ul>
+{% endblock %}
+
+
+{% block fos_user_content %}
+{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+{% endblock fos_user_content %}
