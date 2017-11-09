@@ -27,7 +27,7 @@ class Partie
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn (name ="id_utilisateur1", referencedColumnName ="id")
+     * @ORM\JoinColumn (name ="id_utilisateur1", referencedColumnName ="id", nullable=false)
      */
     protected $id_utilisateur1;
     
@@ -45,14 +45,19 @@ class Partie
     protected $status = 'En attente';
     
     /**
+     * @var string
+     * @ORM\Column(type="string",length=40)
+     */
+    protected $nom;
+    /**
      * @var integer 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $score_Joueur1;
     
     /**
      * @var integer 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $score_Joueur2;
 
