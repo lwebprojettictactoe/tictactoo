@@ -74,12 +74,12 @@
 				<div class="card-panel">
 					<div class="row">
 						<div class="col s12">
-							<input id="form-nom-personne" type="hidden" value="1">
+							<input id="form-nom-personne" type="hidden" value="{{ app.user.id }}">
 							<h4 class="header2 center">Ajouter une partie</h4>
 							<div class="row">
 								<div class="input-field col s4">
 									<i class="mdi-action-account-circle prefix"></i>
-									<input id="form-name" type="text" placeholder="Partie de salut"
+									<input id="form-name" type="text" placeholder="Partie de {{ app.user.username }}"
 										   class="validate">
 									<label for="form-name">Nom de la partie</label>
 								</div>
