@@ -1,0 +1,11 @@
+html, body{
+	height: 100%;
+}
+
+body, .container{
+	height: 100%;
+}
+
+body, #welcome{
+	height: 98%
+}
