@@ -30,11 +30,22 @@
 <nav>
 	<div class="nav-wrapper light-blue darken-3">
 
-		<ul class=left>
+		<a href="#" data-activates="mobile-menu" class="button-collapse">
+			<i class="material-icons">menu</i>
+		</a>
+		<ul class="left hide-on-med-and-down">
 			<li><a href="{{ path('ttt_first_homepage') }}">Accueil</a></li>
 			<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
 		</ul>
-		<ul class=right>
+		<ul class="right hide-on-med-and-down">
+			<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+			<li><a href="{{ path('fos_user_profile_edit') }}">Modifier Profil </a></li>
+			<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+		</ul>
+
+		<ul class="side-nav" id="mobile-menu">
+			<li><a href="{{ path('ttt_first_homepage') }}">Accueil</a></li>
+			<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
 			<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
 			<li><a href="{{ path('fos_user_profile_edit') }}">Modifier Profil </a></li>
 			<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>

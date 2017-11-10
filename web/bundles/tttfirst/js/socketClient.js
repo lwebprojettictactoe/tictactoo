@@ -8,6 +8,8 @@ function sleep(ms) {
 
 async function recuperationPartie(type){
 	$("#listGame").text('');
+	$("#pagination-partie").remove();
+
 	addIndeter();
 	await sleep(2000);
 	socket.emit("fetch-game", type);
@@ -76,8 +78,11 @@ function searchGame(value){
 socket.on("a-game", function (parties) {
 	$("#listGame").text('');
 	$("#pagination-partie").remove();
-	console.log(Object.keys(parties).length);
-	if(Object.keys(parties).length < 10){
+
+	if(Object.keys(parties).length === 0){
+		$("#listGame").append("<h5 class='center'>Aucune partie trouvée </h5>");
+	}
+	else if(Object.keys(parties).length < 10){
 		for(let partie in parties){
 			$("#listGame").append(
 				"<tr>" +
