@@ -41,9 +41,18 @@ function showForm(){
 }
 
 function addIndeter(){
-	$("body").prepend("\n" +
-		"<div id=inder class=\"progress red\">\n" +
-		"\t<div class=\"indeterminate blue\"></div>\n" +
+	$("#listGame").append("<div id=inder class=\"preloader-wrapper big active\">" +
+		"<div class=\"spinner-layer spinner-blue-only\">" +
+		"<div class=\"circle-clipper left\">" +
+		"<div class=\"circle\"></div>" +
+		"</div>" +
+		"<div class=\"gap-patch\">" +
+		"<div class=\"circle\"></div>" +
+		"</div>" +
+		"<div class=\"circle-clipper right\">" +
+		"<div class=\"circle\"></div>" +
+		"</div>" +
+		"</div>" +
 		"</div>");
 }
 
