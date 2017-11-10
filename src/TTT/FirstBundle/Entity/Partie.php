@@ -44,6 +44,18 @@ class Partie
      */
     protected $status = 'En attente';
     
+     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $nom_utilisateur1;
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $nom_utilisateur2;
+    
     /**
      * @var string
      * @ORM\Column(type="string",length=40)
