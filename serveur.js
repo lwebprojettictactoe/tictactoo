@@ -37,6 +37,12 @@ const Parties = sequelize.define('parties', {
 	id_utilisateur2: {
 		type: Sequelize.INTEGER
 	},
+	nom_utilisateur1: {
+		type: Sequelize.INTEGER
+	},
+	nom_utilisateur2: {
+		type: Sequelize.INTEGER
+	},
 	status: {
 		type: Sequelize.STRING
 	},
@@ -49,8 +55,8 @@ const Parties = sequelize.define('parties', {
 	}
 });
 
-
 io.sockets.on('connection', function (socket) {
+
 	console.log('Un client est connecté !');
 
 	socket.on('message', function (message) {
@@ -63,20 +69,23 @@ io.sockets.on('connection', function (socket) {
 				socket.emit('error-empty-field', champs);
 				return;
 			}
-			console.log(newgame[champs] + " " + champs);
 		}
 
 		// Table created
 		Parties.create({
 			nom: newgame["nom"],
 			id_utilisateur1: newgame['id_utilisateur1'],
+			nom_utilisateur1: newgame['nom_utilisateur'],
+			nom_utilisateur2: null,
 			jeu: newgame['jeu'],
 			status: 'En attente',
 			id_utilisateur2: null
 		});
 
-		//socket.emit('after-create-game');
+		socket.join(newgame['nom_utilisateur']);
+		socket.emit('create-room', newgame['nom_utilisateur']);
 	});
+
 	socket.on('fetch-game', function (type) {
 		if (typeof type === 'undefined') {
 			type = 'Toutes;'
@@ -101,6 +110,19 @@ io.sockets.on('connection', function (socket) {
 				socket.emit('a-game', parties);
 			});
 		}
+	});
+
+	socket.on('search-game', function (value) {
+
+		Parties.findAll({
+			where: {
+				nom: { [Op.like]: "%"+value+"%" }
+			},
+			raw: true,
+		}).then(function (parties) {
+			socket.emit('a-game', parties);
+		});
+
 	});
 });
 
