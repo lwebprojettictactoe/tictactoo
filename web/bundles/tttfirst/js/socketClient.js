@@ -1,9 +1,15 @@
 var socket = io.connect('http://localhost:8081');
 
 const PAGINATION = 7;
-function recuperationPartie(type){
-	addIndeter();
 
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function recuperationPartie(type){
+	$("#listGame").text('');
+	addIndeter();
+	await sleep(2000);
 	socket.emit("fetch-game", type);
 }
 
@@ -40,13 +46,13 @@ function createPagination(length, parties) {
 		$("#pagination-"+i).click(function(){
 			$("#listGame").text('');
 			for(var pagination = 1; pagination <= numberPage; pagination++){
-				$("#pagination-"+pagination).removeClass("active");
+				$("#pagination-"+pagination).removeClass("active cyan");
 			}
 			for(var partie = (i - 1) * PAGINATION; partie < i * PAGINATION; partie++){
-				$(this).addClass("active");
+				$(this).addClass("active cyan");
 				if(partie < Object.keys(parties).length){
 					$("#listGame").append(
-						"<tr>" +
+						"<tr class='cyanHighlight'>" +
 						"<td>"+ parties[partie].id + "</td>" +
 						"<td>"+ parties[partie].nom + "</td>" +
 						"<td>"+ parties[partie].jeu + "</td>" +
