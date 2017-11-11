@@ -6,6 +6,14 @@ body, .container{
 	height: 100%;
 }
 
-body, #welcome{
+body, #welcome, #login-page, #inscription, #register{
 	height: 98%
+}
+
+#_submit{
+	height: 100%;
+}
+
+#_register_submit{
+	width: 100%;
 }

@@ -17,10 +17,6 @@ $(document).ready(function() {
 });
 $('select').material_select('destroy');
 
-jQuery(document).ready(function($){
-	$(".button-collapse").sideNav();
-});
-
 function typeGame(type) {
 	if(document.getElementById("value-type")){
 		document.getElementById("value-type").innerHTML = type;

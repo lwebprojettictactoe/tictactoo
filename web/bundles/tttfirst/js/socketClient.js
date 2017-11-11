@@ -123,9 +123,39 @@ function createGame(name_user) {
 					"</div>" +
 				"</div>" +
 			"</div>" +
+		"</div>" +
+		"<div class='row container container-length' id='morpion'>" +
 		"</div>"
 	);
+	creerMorpion();
 }
+
+function creerMorpion() {
+	for(let i = 0; i < 3; i++){
+		$("#morpion").append(
+				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' width='100' height='100'/>" +
+				"<img src='/img/trait_vertical.png' class='col s1' width='50' height='100'/>" +
+				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' height='100'/>" +
+				"<img src='/img/trait_vertical.png' class='col s1' width='50' height='100'/> " +
+				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' width='50' height='100'/>"
+		);
+		if(i !== 2){
+			$("#morpion").append(
+				"<img src='/img/trait_horizontal.png' class='center' width='100%' height='50'/>"
+			)
+		}
+	}
+	$("img.hover-morpion").hover(function(){
+		if(this.src.includes("img/Image_blanche.png")){
+			$(this).toggleClass("morpion-croix")
+		}
+	});
+	$("img.hover-morpion").click(function(){
+		$(this).attr("src", "/img/case_croix.png");
+	});
+	main();
+}
+
 function rechercherVainqueur(tab_pions, tab_joueurs, tourJoueur){
 	if( tab_pions[0].innerHTML == tab_joueurs[tourJoueur] &&
 		tab_pions[1].innerHTML == tab_joueurs[tourJoueur] &&
@@ -173,7 +203,6 @@ function estValide(btn){
 }
 
 function setSymbol(btn, symbole){
-	socket.emit
 	btn.innerHTML = symbole;
 }
 
@@ -186,7 +215,7 @@ function tableauPlein(tab_pions){
 }
 
 function main(){
-	var tab_pions = document.querySelectorAll("#buttons button");
+	var tab_pions = document.getElementById("morpion").querySelectorAll("#buttons button");
 	var tab_joueurs = ['X','O'];
 	var tourJoueur = 0;
 	var jeuFini = false;
