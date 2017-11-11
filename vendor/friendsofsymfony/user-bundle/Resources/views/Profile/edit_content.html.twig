@@ -5,7 +5,7 @@
         <h4 class="header2 center">Modifier vos informations</h4>
         <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
 			{{ form_widget(form) }}
-            <button class="btn cyan waves-effect waves-light right" type="submit" name="action" value="{{ 'profile.edit.submit'|trans }}">Submit
+            <button class="btn cyan waves-effect waves-light right" type="submit" name="action" value="{{ 'profile.edit.submit'|trans }}">Valider
                 <i class="mdi-content-send right"></i>
             </button>
         </form>

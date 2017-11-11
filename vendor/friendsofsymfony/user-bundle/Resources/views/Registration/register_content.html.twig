@@ -1,8 +1,28 @@
 {% trans_default_domain 'FOSUserBundle' %}
+{% include "header.html.twig" %}
 
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{'Valider'|trans }}" />
-    </div>
-</form>
+<div id="register" class="row valign-wrapper">
+	<div class="col s12 card-panel">
+		<h4 class="header2 center">Inscription</h4>
+		<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST"
+			  class="fos_user_registration_register">
+			{{ form_widget(form) }}
+			<div class="row margin">
+				<div class="col s12">
+					<button class="btn cyan wves-effect waves-light" type="submit" name="action" id="_register_submit"
+							value="{{ 'Valider'|trans }}">Valider
+						<i class="mdi-content-send right"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="input-field col s6 m6 l6">
+				<p class="margin medium-small left-align"><a href="{{ path('ttt_first_homepage')}}">Revenir à l'accueil</a></p>
+			</div>
+			<div class="input-field col s6 m6 l6">
+				<p class="margin medium-small right-align"><a href="{{ path('fos_user_security_login') }}">Se connecter</a></p>
+			</div>
+		</div>
+	</div>
+</div>
