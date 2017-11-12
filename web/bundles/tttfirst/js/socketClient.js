@@ -1,6 +1,82 @@
 var socket = io.connect('http://localhost:8081');
 
+var typeCase = null;
+var peutJouer = false;
+
 const PAGINATION = 7;
+
+$("#form-add-game").click(function () {
+	addIndeter();
+	socket.emit('new-game', {
+			id_utilisateur1: document.getElementById("form-id-personne").value,
+			nom_utilisateur: document.getElementById("form-nom-personne").value,
+			nom: document.getElementById("form-name").value,
+			jeu: document.getElementById("form-jeu").value
+		}
+	);
+	socket.emit('create-room', {nom_utilisateur: document.getElementById("form-nom-personne").values});
+	removeIndeter();
+});
+
+socket.on("create-room", function () {
+	$("#launcher-game").hide();
+	swal("En attente d'un adversaire");
+});
+
+socket.on("update-case", function (field) {
+	peutJouer = !peutJouer;
+	$("#begin-game").text('');
+	$("#"+field['idCase']).attr("src", field['imgSrc']);
+});
+
+socket.on("create-game", function(field){
+	$("#launcher-game").hide();
+	console.log(document.getElementById("app_username").innerHTML);
+	if(field['begin'] === document.getElementById("app_username").innerHTML){
+		peutJouer = true;
+		typeCase = "/img/case_croix.png";
+	}
+	else{
+		typeCase = "/img/case_rond.png";
+	}
+	createGame(field);
+});
+
+socket.on("error-empty-field", function (champ) {
+	swal("Veuillez remplir le champ " + champ);
+});
+
+socket.on("error-join-game", function (message) {
+	swal(message);
+});
+
+socket.on("a-game", function (parties) {
+	$("#listGame").text('');
+	$("#pagination-partie").remove();
+
+	if(Object.keys(parties).length === 0){
+		$("#listGame").append("<h5 class='center'>Aucune partie trouvée </h5>");
+	}
+	else if(Object.keys(parties).length < 10){
+		console.log(parties);
+		for(let partie in parties){
+			$("#listGame").append(
+				"<tr>" +
+				"<td>"+ parties[partie].id + "</td>" +
+				"<td>"+ parties[partie].nom + "</td>" +
+				"<td>"+ parties[partie].jeu + "</td>" +
+				"<td>"+ parties[partie].status + "</td>" +
+				"<td>"+ parties[partie].nom_utilisateur1 + "</td>" +
+				"<td>"+ (parties[partie].nom_utilisateur2 === null ? '...' : parties[partie].nom_utilisateur2) + "</td>" +
+				"</tr>"
+			);
+		}
+	}
+	else{
+		createPagination(Object.keys(parties).length, parties);
+	}
+	removeIndeter();
+});
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
@@ -21,28 +97,6 @@ async function recuperationPartie(type){
 	await sleep(2000);
 	socket.emit("fetch-game", type);
 }
-
-$("#form-add-game").click(function () {
-	addIndeter();
-	socket.emit('new-game', {
-			id_utilisateur1: document.getElementById("form-id-personne").value,
-			nom_utilisateur: document.getElementById("form-nom-personne").value,
-			nom: document.getElementById("form-name").value,
-			jeu: document.getElementById("form-jeu").value
-		}
-	);
-	socket.emit('create-room', {nom_utilisateur: document.getElementById("form-nom-personne").values});
-	removeIndeter();
-});
-
-socket.on("create-room", function (name_user) {
-	$("#launcher-game").hide();
-	createGame(name_user);
-});
-
-socket.on("error-empty-field", function (champ) {
-	swal("Veuillez remplir le champ " + champ);
-});
 
 function createPagination(length, parties) {
 	var numberPage = Math.ceil(length / PAGINATION);
@@ -67,7 +121,7 @@ function createPagination(length, parties) {
 						"<td>"+ parties[partie].jeu + "</td>" +
 						"<td>"+ parties[partie].status + "</td>" +
 						"<td>"+ parties[partie].nom_utilisateur1 + "</td>" +
-						"<td>"+ (parties[partie].nom_utilisateur2 === null ? '...' : parties[partie].id_utilisateur2) + "</td>" +
+						"<td>"+ (parties[partie].nom_utilisateur2 === null ? '...' : parties[partie].nom_utilisateur2) + "</td>" +
 						"</tr>"
 					);
 				}
@@ -79,7 +133,7 @@ function createPagination(length, parties) {
 				if(tabInfo[3].innerHTML === 'En attente'){
 					$("#section-tab").addClass('row').append(
 						"<div id='card-game' class='col s4 card'>" +
-							"<h2 id='card-type-game' class='header'>Partie de " + tabInfo[2].innerHTML + "</h2>" +
+							"<h2 id='card-type-game' class='header text-cyan'>Partie de " + tabInfo[2].innerHTML + "</h2>" +
 							"<div id='card-img' class='card-image'>" +
 								"<img id='img-game' src="+srcGame[tabInfo[2].innerHTML]+" height='50%' width='50%'>" +
 							"</div>"+
@@ -87,13 +141,13 @@ function createPagination(length, parties) {
 								"<p>Joueur dans la partie : " + tabInfo[4].innerHTML + "</p>" +
 							"</div>" +
 							"<div class='card-action'>" +
-								"<a id='join-game' href='#'>Rejoindre la partie</a>" +
-								"<a id='cancel-join-game' href='#'>Annuler</a>" +
+								"<a id='join-game' class='text-cyan' href='#'>Rejoindre la partie</a>" +
+								"<a id='cancel-join-game' class='text-cyan' href='#'>Annuler</a>" +
 							"</div>" +
 						"</div>"
 					);
 					$("#join-game").click(function () {
-						socket.emit('join-game', {"id" : $("#form-id-personne").val(), "nom" : $("#form-nom-personne").val()});
+						socket.emit('join-game', {"idPartie": tabInfo[0].innerHTML, "idJoueur" : $("#form-id-personne").val(), "nom" : $("#form-nom-personne").val()});
 					});
 					$("#cancel-join-game").click(function () {
 						deleteCardJoinGame();
@@ -111,50 +165,24 @@ function searchGame(value) {
 	socket.emit("search-game", value);
 }
 
-socket.on("a-game", function (parties) {
-	$("#listGame").text('');
-	$("#pagination-partie").remove();
-
-	if(Object.keys(parties).length === 0){
-		$("#listGame").append("<h5 class='center'>Aucune partie trouvée </h5>");
-	}
-	else if(Object.keys(parties).length < 10){
-		for(let partie in parties){
-			$("#listGame").append(
-				"<tr>" +
-				"<td>"+ parties[partie].id + "</td>" +
-				"<td>"+ parties[partie].nom + "</td>" +
-				"<td>"+ parties[partie].jeu + "</td>" +
-				"<td>"+ parties[partie].status + "</td>" +
-				"<td>"+ parties[partie].nom_utilisateur1 + "</td>" +
-				"<td>"+ (parties[partie].nom_utilisateur2 === null ? '...' : parties[partie].id_utilisateur2) + "</td>" +
-				"</tr>"
-			);
-		}
-	}
-	else{
-		createPagination(Object.keys(parties).length, parties);
-	}
-	removeIndeter();
-});
-
-function createGame(name_user) {
+function createGame(field) {
 	$("#game").append(
 		"<div class='row'>" +
-			"<div class='col s3 offset-1'>" +
+			"<div class='col s3'>" +
 				"<div class='card-panel lighten-5 z-depth-1'>" +
 					"<div class ='row valign-wrapper'>" +
 						"<div class='col s5 offset-7'>" +
-							"<span class='black-text'>"+name_user+"</span>" +
+							"<span class='black-text'>"+field['creator']+"</span>" +
 						"</div>" +
 					"</div>" +
 				"</div>" +
 			"</div>" +
-			"<div class='col s3 offset-8'>" +
+			"<h3 id='begin-game' class='header col s6 text-cyan center-align'>"+ field['begin'] + " commence !</h3>" +
+			"<div class='col s3'>" +
 				"<div class='card-panel lighten-5 z-depth-1'>" +
 					"<div class ='row valign-wrapper'>" +
 						"<div class='col s12'>" +
-							"<span class='black-text' id='adversaire'> En attente d'un adversaire</span>" +
+							"<span class='black-text' id='adversaire'>"+field['joiner']+"</span>" +
 						"</div>" +
 					"</div>" +
 				"</div>" +
@@ -163,17 +191,17 @@ function createGame(name_user) {
 		"<div class='row container container-length' id='morpion'>" +
 		"</div>"
 	);
-	creerMorpion();
+	creerMorpion(field);
 }
 
-function creerMorpion() {
+function creerMorpion(field) {
 	for(let i = 0; i < 3; i++){
 		$("#morpion").append(
-				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' width='100' height='100'/>" +
+				"<img id='morpion"+(i*3)+ "' src='/img/Image_blanche.png' class='col s3 hover-morpion' width='100' height='100'/>" +
 				"<img src='/img/trait_vertical.png' class='col s1' width='50' height='100'/>" +
-				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' height='100'/>" +
+				"<img id='morpion"+(i*3+1)+ "' src='/img/Image_blanche.png' class='col s3 hover-morpion' height='100'/>" +
 				"<img src='/img/trait_vertical.png' class='col s1' width='50' height='100'/> " +
-				"<img src='/img/Image_blanche.png' class='col s3 hover-morpion' width='50' height='100'/>"
+				"<img id='morpion"+(i*3+2)+ "' src='/img/Image_blanche.png' class='col s3 hover-morpion' width='50' height='100'/>"
 		);
 		if(i !== 2){
 			$("#morpion").append(
@@ -183,11 +211,21 @@ function creerMorpion() {
 	}
 	$("img.hover-morpion").hover(function(){
 		if(this.src.includes("img/Image_blanche.png")){
-			$(this).toggleClass("morpion-croix")
+			if(typeCase.includes("/img/case_croix.png")){
+				$(this).toggleClass("morpion-croix");
+			}
+			else if(typeCase.includes("/img/case_rond.png")){
+				$(this).toggleClass("morpion-rond");
+			}
 		}
 	});
 	$("img.hover-morpion").click(function(){
-		$(this).attr("src", "/img/case_croix.png");
+		if(peutJouer){
+			socket.emit("update-morpion", {"creator": field['creator'], "imgSrc" : typeCase, "idCase": $(this).attr('id')});
+		}
+		else{
+			swal("Ce n'est pas votre tour");
+		}
 	});
 	main();
 }

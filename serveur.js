@@ -38,10 +38,10 @@ const Parties = sequelize.define('parties', {
 		type: Sequelize.INTEGER
 	},
 	nom_utilisateur1: {
-		type: Sequelize.INTEGER
+		type: Sequelize.STRING
 	},
 	nom_utilisateur2: {
-		type: Sequelize.INTEGER
+		type: Sequelize.STRING
 	},
 	status: {
 		type: Sequelize.STRING
@@ -110,6 +110,37 @@ io.sockets.on('connection', function (socket) {
 				socket.emit('a-game', parties);
 			});
 		}
+	});
+
+	socket.on('join-game', function (field) {
+		Parties.findById(field['idPartie']).then(parties =>{
+			let raw = parties.dataValues;
+			if(raw.nom_utilisateur1 !== field['nom'] && raw.status === 'En attente'){
+				parties.update({
+					id_utilisateur2 : field["idJoueur"],
+					nom_utilisateur2: field["nom"],
+					status: "En cours"
+				});
+
+				socket.join(parties.nom_utilisateur1);
+
+				let beginGame = null;
+				if(Math.random() * 100 >= 50){
+					beginGame = parties.nom_utilisateur2;
+				}
+				else{
+					beginGame = parties.nom_utilisateur1;
+				}
+				console.log(beginGame);
+				io.sockets.in(parties.nom_utilisateur1).emit('create-game', {'creator' : parties.nom_utilisateur1, 'joiner' : parties.nom_utilisateur2, 'begin' : beginGame});
+			}
+			else{
+				socket.emit('error-join-game', "Une erreur s'est produite");
+			}
+		});
+	});
+	socket.on('update-morpion', function (field) {
+		io.sockets.in(field['creator']).emit('update-case', field);
 	});
 
 	socket.on('search-game', function (value) {
