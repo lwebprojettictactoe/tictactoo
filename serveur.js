@@ -52,16 +52,16 @@ const Parties = sequelize.define('parties', {
 	},
 	nom: {
 		type: Sequelize.STRING
+	},
+	score_joueur1: {
+		type: Sequelize.INTEGER
+	},
+	score_joueur2: {
+		type: Sequelize.INTEGER
 	}
 });
 
 io.sockets.on('connection', function (socket) {
-
-	console.log('Un client est connecté !');
-
-	socket.on('message', function (message) {
-		console.log('message du client ' + message);
-	});
 
 	socket.on('new-game', function (newgame) {
 		for (let champs in newgame) {
@@ -132,7 +132,7 @@ io.sockets.on('connection', function (socket) {
 					beginGame = parties.nom_utilisateur1;
 				}
 				console.log(beginGame);
-				io.sockets.in(parties.nom_utilisateur1).emit('create-game', {'creator' : parties.nom_utilisateur1, 'joiner' : parties.nom_utilisateur2, 'begin' : beginGame});
+				io.sockets.in(parties.nom_utilisateur1).emit('create-game', {'idGame': field['idPartie'],'creator' : parties.nom_utilisateur1, 'joiner' : parties.nom_utilisateur2, 'begin' : beginGame});
 			}
 			else{
 				socket.emit('error-join-game', "Une erreur s'est produite");
@@ -155,6 +155,26 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	});
+
+	socket.on('finish-game', function (field) {
+		Parties.findById(field['idGame']).then(parties => {
+			if (field['winner'] === parties.nom_utilisateur1) {
+				parties.update({
+					soore_joueur1: 3,
+					score_joueur2: 0,
+					status: "Finis"
+				});
+			}
+			else{
+				parties.update({
+					soore_joueur1: 0,
+					score_joueur2: 3,
+					status: "Finis"
+				});
+			}
+		});
+		io.sockets.in(field['creator']).emit('destroy-game', field['winner']);
+	})
 });
 
 sequelize
