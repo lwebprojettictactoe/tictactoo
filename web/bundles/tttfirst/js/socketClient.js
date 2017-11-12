@@ -6,7 +6,14 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function deleteCardJoinGame() {
+	$("#card-game").remove();
+	$("#container-tab").removeClass("col s8").addClass("container");
+	$("#section-tab").removeClass("row");
+}
+
 async function recuperationPartie(type){
+	deleteCardJoinGame();
 	$("#listGame").text('');
 	$("#pagination-partie").remove();
 
@@ -39,7 +46,7 @@ socket.on("error-empty-field", function (champ) {
 
 function createPagination(length, parties) {
 	var numberPage = Math.ceil(length / PAGINATION);
-	console.log(numberPage);
+
 	$("<ul id='pagination-partie' class='pagination center'></ul>").insertBefore("#add-partie");
 	for(let i = 1; i <= numberPage; i++){
 		$("#pagination-partie").append(
@@ -65,13 +72,42 @@ function createPagination(length, parties) {
 					);
 				}
 			}
+			$("#listGame").delegate('tr', 'click', function () {
+				$("#card-game").remove();
+				let tabInfo = $(this).children();
 
+				if(tabInfo[3].innerHTML === 'En attente'){
+					$("#section-tab").addClass('row').append(
+						"<div id='card-game' class='col s4 card'>" +
+							"<h2 id='card-type-game' class='header'>Partie de " + tabInfo[2].innerHTML + "</h2>" +
+							"<div id='card-img' class='card-image'>" +
+								"<img id='img-game' src="+srcGame[tabInfo[2].innerHTML]+" height='50%' width='50%'>" +
+							"</div>"+
+							"<div class='card-content'>" +
+								"<p>Joueur dans la partie : " + tabInfo[4].innerHTML + "</p>" +
+							"</div>" +
+							"<div class='card-action'>" +
+								"<a id='join-game' href='#'>Rejoindre la partie</a>" +
+								"<a id='cancel-join-game' href='#'>Annuler</a>" +
+							"</div>" +
+						"</div>"
+					);
+					$("#join-game").click(function () {
+						socket.emit('join-game', {"id" : $("#form-id-personne").val(), "nom" : $("#form-nom-personne").val()});
+					});
+					$("#cancel-join-game").click(function () {
+						deleteCardJoinGame();
+					});
+					$("#container-tab").removeClass("container").addClass("col s8");
+				}
+			});
 		})
 	}
 	$("#pagination-1").click();
 }
 
-function searchGame(value){
+function searchGame(value) {
+	deleteCardJoinGame();
 	socket.emit("search-game", value);
 }
 

@@ -27,3 +27,19 @@ margin-top: 1.5rem
 .container.container-length{
 	width: 50%;
 }
+
+#img-game{
+	max-height: 60%;
+	max-width: 60%;
+}
+#card-img{
+	padding-left: 30%;
+}
+
+#join-game, #cancel-join-game, #card-type-game{
+	color: darkcyan;
+
+}
+#join-game:hover, #cancel-join-game:hover{
+	font-size: 1.3rem;
+}
