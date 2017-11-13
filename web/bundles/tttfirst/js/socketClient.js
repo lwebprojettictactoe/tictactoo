@@ -123,15 +123,6 @@ socket.on("a-game", function (parties) {
 
 
 function analysePlateau() {
-	console.log($('#morpion0').attr('src') === $('#morpion1').attr('src'));
-	console.log($('#morpion1').attr('src'));
-	console.log($('#morpion2').attr('src'));
-	console.log($('#morpion3').attr('src'));
-	console.log($('#morpion4').attr('src'));
-	console.log($('#morpion5').attr('src'));
-	console.log($('#morpion6').attr('src'));
-	console.log($('#morpion7').attr('src'));
-	console.log($('#morpion8').attr('src'));
 	if (($('#morpion0').attr('src') === $('#morpion1').attr('src') && $('#morpion1').attr('src') === $('#morpion2').attr('src')) && $('#morpion2').attr('src') !== '/img/Image_blanche.png') {
 		return $('#morpion0').attr('src');
 	}
