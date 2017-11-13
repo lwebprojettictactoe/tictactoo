@@ -37,12 +37,14 @@
 				<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
 			</ul>
 			<ul class="right hide-on-med-and-down">
+				<li id='app_username'>{{ app.user.username }}</li>
 				<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
 				<li><a href="{{ path('fos_user_profile_edit') }}">Modifier Profil </a></li>
 				<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
 			</ul>
 
 			<ul class="side-nav" id="mobile-menu">
+				<li id='app_username'>{{ app.user.username }}</li>
 				<li><a href="{{ path('ttt_first_homepage') }}">Accueil</a></li>
 				<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
 				<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>

@@ -11,7 +11,7 @@ body, #welcome, #login-page, #inscription, #register{
 }
 
 #_submit{
-	height: 100%;
+	/*height: 100%;*/
 }
 
 #_register_submit{
