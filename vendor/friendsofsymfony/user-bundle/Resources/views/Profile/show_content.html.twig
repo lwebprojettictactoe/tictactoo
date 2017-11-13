@@ -1,8 +1,25 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="fos_user_user_show">
-    <p>{{ 'username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'email'|trans }}: {{ user.email }}</p>
-    <p>{{ 'nom'|trans }}: {{ user.nom }}</p>
-    <p>{{ 'prenom'|trans }}: {{ user.prenom }}</p>
+
+<div class="container">
+    <div class="card-panel">
+        <div class="row">
+            <h4 class="header2 center">Profil</h4>
+        </div>
+        <div class="row">
+            <h5>{{ 'Pseudo'|trans }}: {{ user.username }}</h5>
+        </div>
+        <div class="row">
+            <h5>{{ 'Email'|trans }}: {{ user.email }}</h5>
+        </div>
+        <div class="row">
+            <h5>{{ 'Nom'|trans }}: {{ user.nom }}</h5>
+        </div>
+        <div class="row">
+            <h5>{{ 'Prenom'|trans }}: {{ user.prenom }}</h5>
+        </div>
+    </div>
 </div>
+<div class="fos_user_user_show">
+</div>
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/materialize.min.js') }}"></script>

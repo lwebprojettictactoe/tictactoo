@@ -1,4 +1,6 @@
 /*Initialisation des différents élements JQuery*/
+
+const srcGame = {'tictactoo' : '/img/morpion.jpg'};
 $("#toutes").click(function () { typeGame("Toutes"); recuperationPartie("Toutes"); }); // The value of the selected option
 $("#attente").click(function () { typeGame("En attente"); recuperationPartie("En attente"); }); // The value of the selected option
 $("#cours").click(function () { typeGame("En cours"); recuperationPartie("En cours") }); // The value of the selected option
@@ -24,7 +26,6 @@ function typeGame(type) {
 	else{
 		let valueType = document.createElement("strong");
 		valueType.setAttribute("id", "value-type");
-		document.getElementById("type-game").appendChild(valueType);
 	}
 }
 
