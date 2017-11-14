@@ -28,7 +28,8 @@
 
 # Assets and user uploads
 /web/uploads/
-
+vendor/*
+!vendor/friendsofsymfony/
 
 # PHPUnit
 /app/phpunit.xml
