@@ -61,9 +61,19 @@ class RegistrationController extends Controller
             $userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {
-                $url = $this->generateUrl('fos_user_registration_confirmed');
+                $url = $this->generateUrl('ttt_first_homepage');
                 $response = new RedirectResponse($url);
-                
+                $em = $this->getDoctrine()->getManager();
+                $repo = $em->getRepository(\TTT\FirstBundle\Entity\User::class);
+                $stat = new \TTT\FirstBundle\Entity\Statistique();
+                $idUsers = $repo->findAll();
+                krsort($idUsers);
+                $stat->setId_utilisateur(array_shift($idUsers));
+                $stat->setNb_defaites(0);
+                $stat->setNb_egalites(0);
+                $stat->setNb_victoires(0);
+                $em->persist($stat);
+                $em->flush();            
             }
 
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));

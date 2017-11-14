@@ -47,8 +47,50 @@ class Statistique
     
     
 
-    public function __construct()
-    {
-        parent::__construct();
+    function __construct() {
+      
     }
+
+    
+    function getId() {
+        return $this->id;
+    }
+
+    function getId_utilisateur() {
+        return $this->id_utilisateur;
+    }
+
+    function getNb_victoires() {
+        return $this->nb_victoires;
+    }
+
+    function getNb_defaites() {
+        return $this->nb_defaites;
+    }
+
+    function getNb_egalites() {
+        return $this->nb_egalites;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setId_utilisateur($id_utilisateur) {
+        $this->id_utilisateur = $id_utilisateur;
+    }
+
+    function setNb_victoires($nb_victoires) {
+        $this->nb_victoires = $nb_victoires;
+    }
+
+    function setNb_defaites($nb_defaites) {
+        $this->nb_defaites = $nb_defaites;
+    }
+
+    function setNb_egalites($nb_egalites) {
+        $this->nb_egalites = $nb_egalites;
+    }
+
+
 }
