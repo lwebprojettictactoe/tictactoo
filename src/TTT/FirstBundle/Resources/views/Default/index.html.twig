@@ -94,8 +94,13 @@
 		</div>
 		<div id="game"></div>
 
+		<script>
+			var node_server = "{{ server }}";
+            var node_port = "{{ port }}";
+		</script>
+
 		{#Importation de NodeJS#}
-		<script type="text/javascript" src="{{ asset('../node_modules/socket.io-client/dist/socket.io.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/socket.io.js') }}"></script>
 
 		{#Importation des différents js pour les fonctionnalités#}
 		<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/index.js') }}"></script>

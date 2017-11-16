@@ -1,5 +1,7 @@
 var http = require('http');
 var fs = require('fs');
+var param = require('./parameter.js');
+
 
 // Chargement du fichier index.html affiché au client
 var server = http.createServer(function (req, res) {
@@ -13,7 +15,7 @@ var server = http.createServer(function (req, res) {
 var io = require('socket.io').listen(server);
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('nomBDD', 'utilisateur', 'motDePasse', {
+const sequelize = new Sequelize(param['bdd'], param['user'], param['password'], {
 	host: 'localhost',
 	dialect: 'mysql',
 	define: {
