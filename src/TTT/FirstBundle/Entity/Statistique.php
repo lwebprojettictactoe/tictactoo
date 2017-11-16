@@ -22,7 +22,7 @@ class Statistique
     /**
      *
      * @var int
-     * @ORM\OneToOne (targetEntity ="User", inversedBy ="id")
+     * @ORM\OneToOne (targetEntity ="User")
      * @ORM\JoinColumn (name ="id_utilisateur", referencedColumnName ="id")
      */
     protected $id_utilisateur;
@@ -92,5 +92,21 @@ class Statistique
         $this->nb_egalites = $nb_egalites;
     }
 
+    function getPointsTotal()
+    {
+       $tot=$this->nb_victoires*3;
+       $tot=$tot+$this->nb_egalites;
+       
+       return $tot;
+    }
+    
+    function getNbPartiesTotal()
+    {
+        $total=$this->nb_defaites;
+        $total=$total+$this->nb_egalites;
+        $total=$total+$this->nb_victoires;
+        
+        return $total;
+    }
 
 }

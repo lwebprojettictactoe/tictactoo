@@ -1,14 +1,12 @@
 {% include "header.html.twig" %}
 
-<div>
-    <ul>
-    <li>nb_victoires : 0</li>
-    <li>nb_défaites : 0</li>
-    <li>nb_égalités : 0</li>
-</ul>
+<div class="container">
+    <div class="card-panel row">
+        <div class="col s12"><h2 class="header2 center-align">Mes Statistiques</h2></div>
+         <div class="col s12 m6 l6 center-align" id="donutchart" style="width: 450px; height: 250px;"></div>
+         <div class="col s12 m6 l6 center-align" id="PointsTotalChart" style="width: 450px; height: 250px;"></div>
+    </div>
 </div>
-
-
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -19,8 +17,19 @@
 {#Importation de NodeJS#}
 <script type="text/javascript" src="{{ asset('../node_modules/socket.io-client/dist/socket.io.js') }}"></script>
 
-{#Importation des différents js pour les fonctionnalités#}
+{#Affichage des statistiques #}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script  type="text/javascript">
+      stats = {
+        victoires: {{ Stat.nb_victoires|json_encode() }},
+        defaites: {{ Stat.nb_defaites|json_encode() }},
+        egalites: {{ Stat.nb_egalites|json_encode() }}
+    };  
+     points = {{ PointsTotal|json_encode() }};
+     nbParties = {{ NbParties|json_encode()}};
+</script>
 <script type="text/javascript" src="{{ asset('bundles/tttfirst/js/stats.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/stats2.js') }}"></script>
 </body>
 </html>
 
