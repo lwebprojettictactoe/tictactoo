@@ -33,7 +33,9 @@ class ProfileFormType extends AbstractType
     {
         $this->buildUserForm($builder, $options);
 
-        $builder->add('current_password', 'password', array(
+        $builder->add('nom', null, array('label' => 'Nom', 'translation_domain' => 'FOSUserBundle'))
+            ->add('prenom', null, array('label' => 'Prenom', 'translation_domain' => 'FOSUserBundle'))
+                ->add('current_password', 'password', array(
             'label' => 'Mot de passe',
             'translation_domain' => 'FOSUserBundle',
             'mapped' => false,
