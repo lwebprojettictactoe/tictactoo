@@ -30,7 +30,7 @@
 /web/uploads/
 vendor/*
 !vendor/friendsofsymfony/
-
+web/*
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
