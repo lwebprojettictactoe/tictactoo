@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8081');
+var socket = io.connect(node_server+':'+node_port);
 
 var typeCase = null;
 var peutJouer = false;

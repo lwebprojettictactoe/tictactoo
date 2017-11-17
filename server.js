@@ -1,5 +1,7 @@
 var http = require('http');
 var fs = require('fs');
+var param = require('./parameter.js');
+
 
 // Chargement du fichier index.html affiché au client
 var server = http.createServer(function (req, res) {
@@ -13,7 +15,7 @@ var server = http.createServer(function (req, res) {
 var io = require('socket.io').listen(server);
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('nomBDD', 'utilisateur', 'motDePasse', {
+const sequelize = new Sequelize(param['bdd'], param['user'], param['password'], {
 	host: 'localhost',
 	dialect: 'mysql',
 	define: {
@@ -64,7 +66,7 @@ const Parties = sequelize.define('parties', {
 io.sockets.on('connection', function (socket) {
 
 	socket.on('new-game', function (newgame) {
-		for (let champs in newgame) {
+		for (var champs in newgame) {
 			if (newgame[champs] === "") {
 				socket.emit('error-empty-field', champs);
 				return;
@@ -186,4 +188,4 @@ sequelize
 		console.error('Unable to connect to the database:', err);
 	});
 
-server.listen(8081);
+server.listen(param['port']);

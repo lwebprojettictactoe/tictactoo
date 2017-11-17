@@ -1,0 +1,6 @@
+module.exports = {
+    'user' : 'userbdd',
+    'password' : 'passwordbdd',
+    'bdd' : 'bdd',
+    'port' : '1234'
+};

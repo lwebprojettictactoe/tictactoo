@@ -41,4 +41,9 @@ vendor/*
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
 
-\.idea/
+/.idea/
+
+#fix parameters
+/parameter.js
+/zz
+/start-server.sh
