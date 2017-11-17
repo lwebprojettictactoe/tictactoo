@@ -12,12 +12,24 @@
         <div class="row">
             <h5>{{ 'Email'|trans }}: {{ user.email }}</h5>
         </div>
+            {% if user.nom is null %}
+        <div class="row">
+            <h5>{{ 'Nom'|trans }}: Non renseigné</h5>
+        </div>
+            {% else %}
         <div class="row">
             <h5>{{ 'Nom'|trans }}: {{ user.nom }}</h5>
         </div>
+            {% endif %}
+            {% if user.prenom is null %}
+        <div class="row">
+            <h5>{{ 'Prenom'|trans }}: Non renseigné</h5>
+        </div>
+            {% else %}
         <div class="row">
             <h5>{{ 'Prenom'|trans }}: {{ user.prenom }}</h5>
         </div>
+            {% endif %}
     </div>
 </div>
 <div class="fos_user_user_show">
