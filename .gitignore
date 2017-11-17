@@ -46,4 +46,4 @@ vendor/*
 #fix parameters
 /parameter.js
 /zz
-
+/start-server.sh

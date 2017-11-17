@@ -66,7 +66,7 @@ const Parties = sequelize.define('parties', {
 io.sockets.on('connection', function (socket) {
 
 	socket.on('new-game', function (newgame) {
-		for (let champs in newgame) {
+		for (var champs in newgame) {
 			if (newgame[champs] === "") {
 				socket.emit('error-empty-field', champs);
 				return;
@@ -188,4 +188,4 @@ sequelize
 		console.error('Unable to connect to the database:', err);
 	});
 
-server.listen(8081);
+server.listen(param['port']);
