@@ -5,6 +5,9 @@
     <div class="card-panel">
         <div class="row">
             <h4 class="header2 center">Profil</h4>
+            {% if  extension is defined %}      
+            <img src="{{ asset('bundles/tttfirst/photo/'~user.id~extension) }}" style="height: 100px; width: 100px;" alt="PhotoProfil">
+            {% endif %}
         </div>
         <div class="row">
             <h5>{{ 'Pseudo'|trans }}: {{ user.username }}</h5>
@@ -30,6 +33,7 @@
             <h5>{{ 'Prenom'|trans }}: {{ user.prenom }}</h5>
         </div>
             {% endif %}
+            
     </div>
 </div>
 <div class="fos_user_user_show">
