@@ -34,13 +34,36 @@ class ProfileController extends Controller
     public function showAction()
     {
         $user = $this->getUser();
+        
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
-
-        return $this->render('FOSUserBundle:Profile:show.html.twig', array(
+        
+        if(file_exists('../web/bundles/tttfirst/photo/'.$user->getId().'.png'))
+        {         
+            $extension =  '.png';
+            return $this->render('FOSUserBundle:Profile:show.html.twig', array(
+            'user' => $user, 'extension'=> $extension
+        ));
+        }
+        else
+        {
+            if(file_exists('../web/bundles/tttfirst/photo/'.$user->getId().'.jpg'))
+            {
+                $extension= '.jpg';
+                return $this->render('FOSUserBundle:Profile:show.html.twig', array(
+            'user' => $user, 'extension' => $extension
+        ));
+            }
+            else
+            {
+                return $this->render('FOSUserBundle:Profile:show.html.twig', array(
             'user' => $user
         ));
+            }
+            
+        }
+        
     }
 
     /**
@@ -79,7 +102,29 @@ class ProfileController extends Controller
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
             $userManager->updateUser($user);
-
+            if(stristr($_FILES['photo']['name'], '.')== '.png' || stristr($_FILES['photo']['name'], '.')== '.jpg')
+            {
+                $newName=  stristr($_FILES['photo']['name'], '.');
+                $newName= $user->getId().$newName; 
+                $dir='../web/bundles/tttfirst/photo/';
+                if(file_exists($dir.$user->getId().'.jpg'))
+                {
+                    unlink($dir.$user->getId().'.jpg');
+                }   
+                if(file_exists($dir.$user->getId().'.png'))
+                {
+                    unlink($dir.$user->getId().'.png');
+                }   
+                move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);                  
+                rename($dir.$_FILES['photo']['name'], $dir.$newName);
+            }
+            else
+            {                
+                
+                return $this->redirectToRoute('fos_user_profile_edit');
+            }
+            
+            
             if (null === $response = $event->getResponse()) {
                 $url = $this->generateUrl('fos_user_profile_show');
                 $response = new RedirectResponse($url);
@@ -91,7 +136,7 @@ class ProfileController extends Controller
         }
 
         return $this->render('FOSUserBundle:Profile:edit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ));
     }
 }

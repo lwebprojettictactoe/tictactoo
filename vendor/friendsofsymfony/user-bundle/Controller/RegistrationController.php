@@ -32,6 +32,9 @@ class RegistrationController extends Controller
 {
     public function registerAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        return $this->redirectToRoute('ttt_first_homepage');
+        }
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
