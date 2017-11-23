@@ -59,7 +59,7 @@ class RegistrationController extends Controller
 
         if ($form->isValid()) {
             $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+            /*$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);*/
 
             $userManager->updateUser($user);
 
@@ -80,7 +80,7 @@ class RegistrationController extends Controller
             }
 
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
+            $this->get('session')->getFlashBag()->add('SuccesRegisterUser', '');
             return $response;
         }
 

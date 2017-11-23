@@ -6,15 +6,14 @@
 
 {% endblock %}
 
-{% if app.request.hasPreviousSession %}
+{#{% if app.request.hasPreviousSession %}
 	{% for type, messages in app.session.flashbag.all() %}
-		{% for message in messages %}
-			<div class="flash-{{ type }}">
-				{{ message }}
-			</div>
+		{% for message in messages %}		
+                            {{ message }}
 		{% endfor %}
 	{% endfor %}
 {% endif %}
+#}
 
 <div class="container">
 	{% block fos_user_content %}

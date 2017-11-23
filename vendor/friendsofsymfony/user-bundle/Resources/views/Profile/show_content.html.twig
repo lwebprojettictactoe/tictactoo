@@ -1,6 +1,11 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-
+{% for message in app.session.flashbag.get('SuccesEditProfil') %}
+       <script type="text/javascript"> 
+        	swal('Votre profil a été mis à jour');
+        </script>
+  {% endfor %}
+  
 <div class="container">
     <div class="card-panel">
         <div class="row">

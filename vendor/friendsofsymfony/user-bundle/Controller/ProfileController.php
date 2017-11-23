@@ -120,7 +120,7 @@ class ProfileController extends Controller
             }
             else
             {                
-                
+                $this->get('session')->getFlashBag()->add('ErreurModifProfil', '');
                 return $this->redirectToRoute('fos_user_profile_edit');
             }
             
@@ -131,7 +131,7 @@ class ProfileController extends Controller
             }
 
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
+            $this->get('session')->getFlashBag()->add('SuccesEditProfil', '');
             return $response;
         }
 

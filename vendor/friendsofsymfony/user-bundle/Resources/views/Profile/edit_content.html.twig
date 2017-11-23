@@ -4,26 +4,30 @@
  <script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/sweetalert.min.js') }}"></script>
  
 
-   <!-- <script type="text/javascript"> 
-        $(function(){
-        	swal('ERREUR');
-        });</script>
-!--> 
+    
+
+   
+ {% for message in app.session.flashbag.get('ErreurModifProfil') %}
+       <script type="text/javascript"> 
+        	swal('Erreur dans la saisie du formulaire');
+        </script>
+  {% endfor %}
  
 <div class="container">
     <div class="card-panel">
         <h4 class="header2 center">Modifier vos informations</h4>
         <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit" enctype="multipart/form-data">
-			{{ form_widget(form) }}
-                        <div class="file-field input-field">
+             <div class="file-field input-field">
                         <div class="btn">
                           <span>Photo</span>
                           <input type="file" name="photo">
                         </div>
                         <div class="file-path-wrapper">
-                          <input class="file-path validate" type="text">
+                          <input class="file-path validate" type="text" placeholder=".pgn ou .jpg">
                         </div>
                       </div>
+			{{ form_widget(form) }}
+                       
             <button class="btn cyan waves-effect waves-light right" type="submit" name="action" value="{{ 'profile.edit.submit'|trans }}">Valider
                 <i class="mdi-content-send right"></i>
             </button>
