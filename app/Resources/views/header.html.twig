@@ -27,29 +27,43 @@
 {% if is_granted('ROLE_USER') %}
 
 	<nav>
-		<div class="nav-wrapper light-blue darken-3">
+		<div class="nav-wrapper blue-grey lighten-2">
 
 			<a href="#" data-activates="mobile-menu" class="button-collapse">
 				<i class="material-icons">menu</i>
 			</a>
+			<a href="{{ path('ttt_first_homepage') }}" class="brand-logo center"><img class="responsive-img" src="{{ asset('img/logo.png') }}"></a>
 			<ul class="left hide-on-med-and-down">
-				<li><a href="{{ path('ttt_first_homepage') }}">Accueil</a></li>
-				<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
+				<li><a href="{{ path('ttt_first_homepage') }}" ><i class="left material-icons">home</i>Accueil</a></li>
+				<li><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
 			</ul>
 			<ul class="right hide-on-med-and-down">
-				<li id='app_username'>{{ app.user.username }}</li>
-				<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
-				<li><a href="{{ path('fos_user_profile_edit') }}">Modifier Profil </a></li>
-				<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                {% if app.user != NULL  %}
+					<li id='app_username'>{{ app.user.username }}</li>
+					<li><a href="{{ path('fos_user_profile_show') }}"><i class="left material-icons">person</i>Profil</a></li>
+					<li><a href="{{ path('fos_user_profile_edit') }}"><i class="left material-icons">settings</i>Modifier Profil </a></li>
+					<li><a href="{{ path('fos_user_security_logout') }}"><i class="left material-icons">power_settings_new</i>Logout</a></li>
+                {% else %}
+					<li><a href="{{ path('fos_user_registration_register') }}"><i class="left material-icons">create</i>Register</a></li>
+					<li><a href="{{ path('fos_user_security_login') }}"><i class="left material-icons">input</i>Login</a></li>
+                {% endif %}
 			</ul>
 
 			<ul class="side-nav" id="mobile-menu">
-				<li id='app_username'>{{ app.user.username }}</li>
-				<li><a href="{{ path('ttt_first_homepage') }}">Accueil</a></li>
-				<li><a href="{{ path('ttt_first_statistique') }}">Statistiques</a></li>
-				<li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
-				<li><a href="{{ path('fos_user_profile_edit') }}">Modifier Profil </a></li>
-				<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                {% if app.user != NULL  %}
+					<li id='app_username' class="blue-grey lighten-2" >Bienvenue {{ app.user.username }}</li>
+					<li><a href="{{ path('ttt_first_homepage') }}"><i class="left material-icons">home</i>Accueil</a></li>
+					<li><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
+					<li><a href="{{ path('fos_user_profile_show') }}"><i class="left material-icons">person</i>Profil</a></li>
+					<li><a href="{{ path('fos_user_profile_edit') }}"><i class="left material-icons">settings</i>Modifier Profil </a></li>
+					<li><a href="{{ path('fos_user_security_logout') }}"><i class="left material-icons">power_settings_new</i>Logout</a></li>
+                {% else %}
+					<li id='app_username' class="blue-grey lighten-2" >Bienvenue</li>
+					<li><a href="{{ path('ttt_first_homepage') }}"><i class="left material-icons">home</i>Accueil</a></li>
+					<li><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
+					<li><a href="{{ path('fos_user_registration_register') }}"><i class="left material-icons">create</i>Register</a></li>
+					<li><a href="{{ path('fos_user_security_login') }}"><i class="left material-icons">input</i>Login</a></li>
+                {% endif %}
 			</ul>
 		</div>
 	</nav>
