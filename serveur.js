@@ -168,7 +168,9 @@ io.sockets.on('connection', function (socket) {
 
 		Parties.findAll({
 			where: {
-				nom: { [Op.like]: "%"+value+"%" }
+				nom: { [Op.like]: "%"+value+"%" },
+				[Op.or]: [{Status: 'En attente'}, {Status: 'En cours'}]
+
 			},
 			raw: true,
 		}).then(function (parties) {

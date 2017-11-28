@@ -10,28 +10,65 @@
 <div class="container">
     <div class="card-panel row section">
          <div class="col s12"><h2 class="header2 center-align">Mes Statistiques</h2></div>
-         <div class="col s12 m6 l6 center-align" id="donutchart" style="width: 450px; height: 250px;"></div>
-         <div class="col s12 m6 l6 center-align" id="PointsTotalChart" style="width: 450px; height: 250px;"></div>
+         <div class="col s12 m6 l6 center-align" id="donutchart" style="width: 400px; height: 250px;"></div>
+         <div class="col s12 m6 l6 center-align" id="PointsTotalChart" style="width: 400px; height: 250px;"></div>
+    </div>
+
+    <div class="card-panel row section">
+        <div class="col s12"><h2 class="header2 center-align">Historique de parties</h2></div>
+        <table class="table">
+            <thead>
+            <th>Date</th>
+            <th>Jeu</th>
+            <th>Adversaire</th>
+            <th>Résultat</th>
+            </thead>
+            <tbody>
+                {% for partie in partiesUn %}
+                    <tr>
+                        <td>{{ partie.date }}</td>
+                        <td>{{ partie.jeu }}</td>
+                        <td>{{ partie.nom_utilisateur2 }}</td>
+                        {% if partie.score_Joueur1 == 3 %}
+                            <td><i class="medium material-icons icon-green">sentiment_very_satisfied</i></td>
+                        {% elseif partie.score_Joueur1 == 1 %}
+                            <td><i class="medium material-icons icon-brown">sentiment_neutral</i></td>
+                        {% else %}
+                            <td><i class="medium material-icons icon-red">sentiment_very_dissatisfied</i></td>
+                        {% endif %}
+                    </tr>
+				{% endfor %}
+
+                {% for partie in partiesDeux %}
+                        <tr>
+                            <td>{{ partie.date }}</td>
+                            <td>{{ partie.jeu }}</td>
+                            <td>{{ partie.nom_utilisateur1 }}</td>
+							{% if partie.score_Joueur2 == 3 %}
+                                <td><i class="medium material-icons icon-green">sentiment_very_satisfied</i></td>
+							{% elseif partie.score_Joueur2 == 1 %}
+                                <td><i class="medium material-icons icon-brown">sentiment_neutral</i></td>
+							{% else %}
+                                <td><i class="medium material-icons icon-red">sentiment_very_dissatisfied</i></td>
+							{% endif %}
+                        </tr>
+				{% endfor %}
+            </tbody>
+        </table>
+        <tr></tr>
     </div>
 </div>
-
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 {#Affichage des statistiques #}
 <script  type="text/javascript">
-      stats = {
+    stats = {
         victoires: {{ Stat.nb_victoires|json_encode() }},
         defaites: {{ Stat.nb_defaites|json_encode() }},
         egalites: {{ Stat.nb_egalites|json_encode() }}
-    };  
-     points = {{ PointsTotal|json_encode() }};
-     nbParties = {{ NbParties|json_encode()}};
+    };
+    points = {{ PointsTotal|json_encode() }};
+    nbParties = {{ NbParties|json_encode()}};
 </script>
-
-
-        {% for partie in partiesUn %}
-            <li>{{ partie.nom_utilisateur1 }}</li>
-            <li>{{ partie.nom_utilisateur2 }}</li>
-        {% endfor %}
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="{{ asset('bundles/tttfirst/js/stats.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/tttfirst/js/stats2.js') }}"></script>
 
