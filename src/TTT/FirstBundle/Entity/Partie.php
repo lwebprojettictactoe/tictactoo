@@ -125,7 +125,7 @@ class Partie
     }
 
     function getDate() {
-        return $this->date;
+        return $this->date->format('d-m-Y');
     }
 
     function setId($id) {

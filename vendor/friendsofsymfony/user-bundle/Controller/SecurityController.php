@@ -21,6 +21,9 @@ class SecurityController extends Controller
 {
     public function loginAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        return $this->redirectToRoute('ttt_first_homepage');
+        }
         /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
         $session = $request->getSession();
 

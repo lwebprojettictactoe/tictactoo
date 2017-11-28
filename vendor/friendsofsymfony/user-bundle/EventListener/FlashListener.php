@@ -24,8 +24,8 @@ class FlashListener implements EventSubscriberInterface
         FOSUserEvents::GROUP_CREATE_COMPLETED => 'group.flash.created',
         FOSUserEvents::GROUP_DELETE_COMPLETED => 'group.flash.deleted',
         FOSUserEvents::GROUP_EDIT_COMPLETED => 'group.flash.updated',
-        FOSUserEvents::PROFILE_EDIT_COMPLETED => 'profile.flash.updated',
-        FOSUserEvents::REGISTRATION_COMPLETED => 'registration.flash.user_created',
+        FOSUserEvents::PROFILE_EDIT_COMPLETED => '',
+        FOSUserEvents::REGISTRATION_COMPLETED => '',
         FOSUserEvents::RESETTING_RESET_COMPLETED => 'resetting.flash.success',
     );
 

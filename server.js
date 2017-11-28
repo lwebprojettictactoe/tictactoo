@@ -63,6 +63,26 @@ const Parties = sequelize.define('parties', {
 	}
 });
 
+const Statistiques = sequelize.define("statistiques", {
+		id: {
+			type: Sequelize.INTEGER,
+			primaryKey: true
+		},
+		id_utilisateur: {
+			type: Sequelize.INTEGER
+		},
+		nb_victoires: {
+			type: Sequelize.INTEGER
+		},
+		nb_defaites: {
+			type: Sequelize.INTEGER
+		},
+		nb_egalites: {
+			type: Sequelize.INTEGER
+		},
+	}
+);
+
 io.sockets.on('connection', function (socket) {
 
 	socket.on('new-game', function (newgame) {
@@ -117,7 +137,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('join-game', function (field) {
 		Parties.findById(field['idPartie']).then(parties =>{
 			let raw = parties.dataValues;
-			if(raw.nom_utilisateur1 !== field['nom'] && raw.status === 'En attente'){
+			if((raw.nom_utilisateur1 !== field['nom'] && raw.status === 'En attente') || io.sockets.rooms.indexOf(raw.nom_utilisateur1) >= 0){
 				parties.update({
 					id_utilisateur2 : field["idJoueur"],
 					nom_utilisateur2: field["nom"],
@@ -137,6 +157,7 @@ io.sockets.on('connection', function (socket) {
 				io.sockets.in(parties.nom_utilisateur1).emit('create-game', {'idGame': field['idPartie'],'creator' : parties.nom_utilisateur1, 'joiner' : parties.nom_utilisateur2, 'begin' : beginGame});
 			}
 			else{
+				parties.destroy({ force: true });
 				socket.emit('error-join-game', "Une erreur s'est produite");
 			}
 		});
@@ -149,7 +170,9 @@ io.sockets.on('connection', function (socket) {
 
 		Parties.findAll({
 			where: {
-				nom: { [Op.like]: "%"+value+"%" }
+				nom: { [Op.like]: "%"+value+"%" },
+				[Op.or]: [{Status: 'En attente'}, {Status: 'En cours'}]
+
 			},
 			raw: true,
 		}).then(function (parties) {
@@ -160,22 +183,85 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('finish-game', function (field) {
 		Parties.findById(field['idGame']).then(parties => {
-			if (field['winner'] === parties.nom_utilisateur1) {
+			if(field['tie']){
 				parties.update({
-					soore_joueur1: 3,
+					score_joueur1: 1,
+					score_joueur2: 1,
+					status: "Finis"
+				});
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur1
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_egalites: statistique.nb_egalites + 1
+					})
+				});
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur2
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_egalites: statistique.nb_egalites + 1
+					})
+				});
+			}
+			else if (field['winner'] === parties.nom_utilisateur1) {
+				parties.update({
+					score_joueur1: 3,
 					score_joueur2: 0,
 					status: "Finis"
+				});
+
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur1
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_victoires: statistique.nb_victoires + 1
+					})
+				});
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur2
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_defaites: statistique.nb_defaites + 1
+					})
 				});
 			}
 			else{
 				parties.update({
-					soore_joueur1: 0,
+					score_joueur1: 0,
 					score_joueur2: 3,
 					status: "Finis"
 				});
+
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur1
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_defaites: statistique.nb_defaites + 1
+					})
+				});
+				Statistiques.findOne({
+					where: {
+						id_utilisateur: parties.id_utilisateur2
+					}
+				}).then(function (statistique) {
+					statistique.update({
+						nb_victoires: statistique.nb_victoires + 1
+					})
+				});
 			}
 		});
-		io.sockets.in(field['creator']).emit('destroy-game', field['winner']);
+		io.sockets.in(field['creator']).emit('destroy-game', field['tie'] ? 'tie' : field['winner']);
 	})
 });
 

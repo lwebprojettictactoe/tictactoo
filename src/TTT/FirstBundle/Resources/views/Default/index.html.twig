@@ -1,5 +1,11 @@
 {% include "header.html.twig" %}
 
+{% for message in app.session.flashbag.get('SuccesRegisterUser') %}
+       <script type="text/javascript"> 
+        	swal('Inscription réussie');
+        </script>
+  {% endfor %}
+
 {% block body %}
 	{% if is_granted('ROLE_USER') %}
 		<body onload="init()">
@@ -106,6 +112,7 @@
 		<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/index.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/tic_tac_toe.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('bundles/tttfirst/js/socketClient.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('bundles/tttfirst/aos-master/dist/aos.js') }}"></script>
 
 		</body>
 	{% else %}

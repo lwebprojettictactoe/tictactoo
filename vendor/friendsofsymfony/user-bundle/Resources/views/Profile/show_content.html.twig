@@ -1,10 +1,18 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-
+{% for message in app.session.flashbag.get('SuccesEditProfil') %}
+       <script type="text/javascript"> 
+        	swal('Votre profil a été mis à jour');
+        </script>
+  {% endfor %}
+  
 <div class="container">
     <div class="card-panel">
         <div class="row">
             <h4 class="header2 center">Profil</h4>
+            {% if  extension is defined %}
+            <img src="{{ asset('img/photo/'~user.id~extension) }}" style="height: 100px; width: 100px;" alt="PhotoProfil">
+            {% endif %}
         </div>
         <div class="row">
             <h5>{{ 'Pseudo'|trans }}: {{ user.username }}</h5>
@@ -12,12 +20,25 @@
         <div class="row">
             <h5>{{ 'Email'|trans }}: {{ user.email }}</h5>
         </div>
+            {% if user.nom is null %}
+        <div class="row">
+            <h5>{{ 'Nom'|trans }}: Non renseigné</h5>
+        </div>
+            {% else %}
         <div class="row">
             <h5>{{ 'Nom'|trans }}: {{ user.nom }}</h5>
         </div>
+            {% endif %}
+            {% if user.prenom is null %}
+        <div class="row">
+            <h5>{{ 'Prenom'|trans }}: Non renseigné</h5>
+        </div>
+            {% else %}
         <div class="row">
             <h5>{{ 'Prenom'|trans }}: {{ user.prenom }}</h5>
         </div>
+            {% endif %}
+            
     </div>
 </div>
 <div class="fos_user_user_show">

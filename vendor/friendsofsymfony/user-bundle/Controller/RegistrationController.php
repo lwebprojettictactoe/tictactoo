@@ -32,6 +32,9 @@ class RegistrationController extends Controller
 {
     public function registerAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        return $this->redirectToRoute('ttt_first_homepage');
+        }
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
@@ -56,7 +59,7 @@ class RegistrationController extends Controller
 
         if ($form->isValid()) {
             $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+            /*$dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);*/
 
             $userManager->updateUser($user);
 
@@ -77,7 +80,7 @@ class RegistrationController extends Controller
             }
 
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
+            $this->get('session')->getFlashBag()->add('SuccesRegisterUser', '');
             return $response;
         }
 

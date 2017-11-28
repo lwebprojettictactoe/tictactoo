@@ -21,7 +21,7 @@ class Statistique
     
     /**
      *
-     * @var int
+     * @var User
      * @ORM\OneToOne (targetEntity ="User")
      * @ORM\JoinColumn (name ="id_utilisateur", referencedColumnName ="id")
      */
