@@ -39,7 +39,7 @@ class ProfileController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
         
-        if(file_exists('../web/bundles/tttfirst/photo/'.$user->getId().'.png'))
+        if(file_exists('../web/img/photo/'.$user->getId().'.png'))
         {         
             $extension =  '.png';
             return $this->render('FOSUserBundle:Profile:show.html.twig', array(
@@ -48,7 +48,7 @@ class ProfileController extends Controller
         }
         else
         {
-            if(file_exists('../web/bundles/tttfirst/photo/'.$user->getId().'.jpg'))
+            if(file_exists('../web/img/photo/'.$user->getId().'.jpg'))
             {
                 $extension= '.jpg';
                 return $this->render('FOSUserBundle:Profile:show.html.twig', array(
@@ -106,7 +106,10 @@ class ProfileController extends Controller
             {
                 $newName=  stristr($_FILES['photo']['name'], '.');
                 $newName= $user->getId().$newName; 
-                $dir='../web/bundles/tttfirst/photo/';
+                $dir='../web/img/photo/';
+                if(!file_exists($dir)){
+                    mkdir('../web/img/photo/', 755);
+                }
                 if(file_exists($dir.$user->getId().'.jpg'))
                 {
                     unlink($dir.$user->getId().'.jpg');
@@ -115,7 +118,7 @@ class ProfileController extends Controller
                 {
                     unlink($dir.$user->getId().'.png');
                 }   
-                move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);                  
+                move_uploaded_file($_FILES['photo']['tmp_name'], $dir.$_FILES['photo']['name']);
                 rename($dir.$_FILES['photo']['name'], $dir.$newName);
             }
             else

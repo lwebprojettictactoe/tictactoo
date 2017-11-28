@@ -2,11 +2,7 @@
  <link type="text/css" rel="stylesheet" href="{{ asset('bundles/tttfirst/materialize/css/sweetalert.css') }}"
 		  media="screen,projection"/>
  <script type="text/javascript" src="{{ asset('bundles/tttfirst/materialize/js/sweetalert.min.js') }}"></script>
- 
 
-    
-
-   
  {% for message in app.session.flashbag.get('ErreurModifProfil') %}
        <script type="text/javascript"> 
         	swal('Erreur dans la saisie du formulaire');
@@ -18,12 +14,12 @@
         <h4 class="header2 center">Modifier vos informations</h4>
         <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit" enctype="multipart/form-data">
              <div class="file-field input-field">
-                        <div class="btn">
-                          <span>Photo</span>
+                        <div class="btn cyan">
+                          <span>Ajouter une photo de profil</span>
                           <input type="file" name="photo">
                         </div>
                         <div class="file-path-wrapper">
-                          <input class="file-path validate" type="text" placeholder=".pgn ou .jpg">
+                          <input class="file-path validate" type="text" placeholder=".png ou .jpg">
                         </div>
                       </div>
 			{{ form_widget(form) }}

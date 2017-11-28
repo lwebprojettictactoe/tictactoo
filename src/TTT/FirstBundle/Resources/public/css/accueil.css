@@ -17,3 +17,9 @@ body, #welcome, #login-page, #inscription, #register{
 #_register_submit{
 	width: 100%;
 }
+
+.logo{
+	text-align: center;
+	margin-top: 32px;
+	margin-bottom: 80px;
+}

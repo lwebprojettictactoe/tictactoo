@@ -10,8 +10,8 @@
     <div class="card-panel">
         <div class="row">
             <h4 class="header2 center">Profil</h4>
-            {% if  extension is defined %}      
-            <img src="{{ asset('bundles/tttfirst/photo/'~user.id~extension) }}" style="height: 100px; width: 100px;" alt="PhotoProfil">
+            {% if  extension is defined %}
+            <img src="{{ asset('img/photo/'~user.id~extension) }}" style="height: 100px; width: 100px;" alt="PhotoProfil">
             {% endif %}
         </div>
         <div class="row">
