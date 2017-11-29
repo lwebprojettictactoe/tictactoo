@@ -6,11 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 class UtilisateurController extends Controller{
-	public function statistiqueAction(){
+	public function statistiqueAction($username){
 		$em = $this->getDoctrine()->getManager();
 		
 		$repo = $em->getRepository(\TTT\FirstBundle\Entity\Statistique::class);
-		$user = $this->getUser();
+                $repoUser = $em->getRepository(\TTT\FirstBundle\Entity\User::class);
+		$user = $repoUser->findOneBy(array('username' => $username));
 		
 		$stat = $repo->findOneBy(array('id_utilisateur' => $user));
 		

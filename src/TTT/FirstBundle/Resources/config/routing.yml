@@ -3,7 +3,7 @@ ttt_first_homepage:
     defaults: { _controller: TTTFirstBundle:Default:index }
     
 ttt_first_statistique:
-    path: /stats
+    path: /stats/{username}
     defaults: { _controller: TTTFirstBundle:Utilisateur:statistique }
 
 ttt_first_profil:
