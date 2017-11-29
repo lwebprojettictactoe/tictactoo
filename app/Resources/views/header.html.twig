@@ -37,7 +37,7 @@
 			</a>
 			<ul class="left hide-on-med-and-down">
 				<li><a href="{{ path('ttt_first_homepage') }}" ><i class="left material-icons">home</i>Accueil</a></li>
-				<li><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
+				<li><a href="{{ path('ttt_first_statistique' , {'username' : app.user.username }) }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
 			</ul>
 			<ul class="right hide-on-med-and-down">
                 {% if app.user != NULL  %}
@@ -55,14 +55,15 @@
                 {% if app.user != NULL  %}
 					<li class="logo"><a href="{{ path('ttt_first_homepage') }}"><img class="brand-logo" src="{{ asset('img/logo.png') }}"></a></li>
 					<li class="bold"><a href="{{ path('ttt_first_homepage') }}"><i class="left material-icons">home</i>Accueil</a></li>
-					<li class="bold"><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
+
+					<li class="bold"><a href="{{ path('ttt_first_statistique' , {'username' : app.user.username }) }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
 					<li class="bold"><a href="{{ path('fos_user_profile_show') }}"><i class="left material-icons">person</i>Profil</a></li>
 					<li class="bold"><a href="{{ path('fos_user_profile_edit') }}"><i class="left material-icons">settings</i>Modifier Profil </a></li>
 					<li class="bold"><a href="{{ path('fos_user_security_logout') }}"><i class="left material-icons">power_settings_new</i>Logout</a></li>
                 {% else %}
 					<li id='app_username' class="blue-grey lighten-2" >Bienvenue</li>
 					<li><a href="{{ path('ttt_first_homepage') }}"><i class="left material-icons">home</i>Accueil</a></li>
-					<li><a href="{{ path('ttt_first_statistique') }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
+					<li><a href="{{ path('ttt_first_statistique' , {'username' : Stat.Id_utilisateur.username }) }}"><i class="left material-icons">trending_up</i>Statistiques</a></li>
 					<li><a href="{{ path('fos_user_registration_register') }}"><i class="left material-icons">create</i>Register</a></li>
 					<li><a href="{{ path('fos_user_security_login') }}"><i class="left material-icons">input</i>Login</a></li>
                 {% endif %}

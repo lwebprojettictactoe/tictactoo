@@ -9,7 +9,7 @@
 {% else %}
 <div class="container">
     <div class="card-panel row section">
-         <div class="col s12"><h2 class="header2 center-align">Mes Statistiques</h2></div>
+         <div class="col s12"><h2 class="header2 center-align">Statistiques</h2></div>
          <div class="col s12 m6 l6 center-align" id="donutchart" style="width: 400px; height: 250px;"></div>
          <div class="col s12 m6 l6 center-align" id="PointsTotalChart" style="width: 400px; height: 250px;"></div>
     </div>
@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ partie.date }}</td>
                         <td>{{ partie.jeu }}</td>
-                        <td>{{ partie.nom_utilisateur2 }}</td>
+                        <td><a href="{{ path('ttt_first_statistique' , {'username' : partie.nom_utilisateur2 }) }}">{{ partie.nom_utilisateur2 }}</a></td>
                         {% if partie.score_Joueur1 == 3 %}
                             <td><i class="medium material-icons icon-green">sentiment_very_satisfied</i></td>
                         {% elseif partie.score_Joueur1 == 1 %}
@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ partie.date }}</td>
                             <td>{{ partie.jeu }}</td>
-                            <td>{{ partie.nom_utilisateur1 }}</td>
+                            <td><a href="{{ path('ttt_first_statistique' , {'username' : partie.nom_utilisateur1 }) }}">{{ partie.nom_utilisateur1 }}</a></td>
 							{% if partie.score_Joueur2 == 3 %}
                                 <td><i class="medium material-icons icon-green">sentiment_very_satisfied</i></td>
 							{% elseif partie.score_Joueur2 == 1 %}

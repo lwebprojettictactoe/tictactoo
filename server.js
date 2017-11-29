@@ -261,7 +261,7 @@ io.sockets.on('connection', function (socket) {
 				});
 			}
 		});
-		io.sockets.in(field['creator']).emit('destroy-game', field['tie'] ? 'tie' : field['winner']);
+		io.sockets.in(field['creator']).emit('destroy-game', field['tie'] ? false : field['winner']);
 	})
 });
 
