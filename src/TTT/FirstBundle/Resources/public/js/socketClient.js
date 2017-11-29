@@ -27,7 +27,12 @@ socket.on("destroy-game", function (winner) {
 	typeCase = null;
 	peutJouer = false;
 	typePerson = null;
-	swal(winner + " a gagné !");
+	if(!winner){
+		swal("Égalité !");
+	}
+	else{
+		swal(winner + " a gagné !");
+	}
 	$("#game").text("");
 	$("#launcher-game").show(2000);
 	recuperationPartie("Toutes");
@@ -43,12 +48,20 @@ socket.on("update-case", function (field) {
 	}
 
 	$("#begin-game").text('');
+	$("#" + field['idCase']).attr("src", '/img/Image_blanche.png');
 	$("#" + field['idCase']).attr("src", field['imgSrc']);
 
 	console.log(analysePlateau());
 	let resultAnalyse = analysePlateau();
 	if (resultAnalyse !== false) {
-		if (resultAnalyse === typeCase) {
+		if(resultAnalyse === 'tie'){
+			socket.emit('finish-game', {
+				"creator": document.getElementById("creator").innerHTML,
+				"tie" : true,
+				'idGame': $("#id-game").val()
+			});
+		}
+		else if (resultAnalyse === typeCase) {
 			if (document.getElementById("app_username").innerHTML === document.getElementById("creator").innerHTML) {
 				socket.emit('finish-game', {
 					"creator": document.getElementById("creator").innerHTML,
@@ -89,6 +102,7 @@ socket.on("error-empty-field", function (champ) {
 
 socket.on("error-join-game", function (message) {
 	swal(message);
+	$("#toutes").click();
 });
 
 socket.on("a-game", function (parties) {
@@ -148,7 +162,12 @@ function analysePlateau() {
 		return $('#morpion2').attr('src');
 	}
 	else {
-		return false;
+		for(let i = 0; i < 9; i++){
+			if($('#morpion'+i).attr('src') === '/img/Image_blanche.png'){
+				return false;
+			}
+		}
+		return 'tie';
 	}
 
 }
@@ -179,21 +198,23 @@ function listGameEffect() {
 		let tabInfo = $(this).children();
 
 		if (tabInfo[3].innerHTML === 'En attente') {
-			$("#section-tab").addClass('row').append(
-				"<div id='card-game' class='col s4 card'>" +
-				"<h2 id='card-type-game' class='header text-cyan'>Partie de " + tabInfo[2].innerHTML + "</h2>" +
-				"<div id='card-img' class='card-image'>" +
-				"<img id='img-game' src=" + srcGame[tabInfo[2].innerHTML] + " height='50%' width='50%'>" +
+			var cardGame = "<div id='card-game' class='col s12 m4 l4 card'>" +
+				"<div class='row'>" +
+				"<h3 id='card-type-game' class='header center text-cyan col s12'>Partie de " + tabInfo[2].innerHTML + "</h3>\"" +
+				"</div>" +
+				"<div id='card-img' class='card-image row'>" +
+				"<img id='img-game' class='col s12' src=" + srcGame[tabInfo[2].innerHTML] + " height='100%' width='100%'>" +
 				"</div>" +
 				"<div class='card-content'>" +
 				"<p>Joueur dans la partie : " + tabInfo[4].innerHTML + "</p>" +
 				"</div>" +
-				"<div class='card-action'>" +
-				"<a id='join-game' class='text-cyan' href='#'>Rejoindre la partie</a>" +
-				"<a id='cancel-join-game' class='text-cyan' href='#'>Annuler</a>" +
+				"<div class='card-action row'>" +
+				"<a id='join-game' class='text-cyan col s12 m6 l6' href='#'>Rejoindre</a>" +
+				"<a id='cancel-join-game' class='text-cyan col s12 m6 l6' href='#'>Annuler</a>" +
 				"</div>" +
-				"</div>"
-			);
+				"</div>";
+			$("#section-tab").addClass('row');
+			$('#section-tab').append(cardGame);
 			$("#join-game").click(function () {
 				socket.emit('join-game', {
 					"idPartie": tabInfo[0].innerHTML,
@@ -204,7 +225,7 @@ function listGameEffect() {
 			$("#cancel-join-game").click(function () {
 				deleteCardJoinGame();
 			});
-			$("#container-tab").removeClass("container").addClass("col s8");
+			$("#container-tab").removeClass("container").addClass("col s12 m8 l8");
 		}
 	});
 }
@@ -212,7 +233,7 @@ function listGameEffect() {
 function createPagination(length, parties) {
 	var numberPage = Math.ceil(length / PAGINATION);
 
-	$("<ul id='pagination-partie' class='pagination center'></ul>").insertBefore("#add-partie");
+	$("<ul id='pagination-partie' class='pagination center'></ul>").insertAfter("#tab-partie");
 	for (let i = 1; i <= numberPage; i++) {
 		$("#pagination-partie").append(
 			"<li class='waves-effect' id='pagination-" + i + "\'><a>" + i + "</a></li>"
